@@ -17,15 +17,8 @@ steps:
 
 - script: |
     npm install
-  displayName: 'npm install'
-  
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'run test'
-    workingDir: web/
-    verbose: true
-  continueOnError: true
+    npm run build
+    npm test
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
