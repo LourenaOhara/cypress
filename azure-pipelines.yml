@@ -32,5 +32,5 @@ steps:
     testRunTitle: 'Publish Test Result'
 - task: SonarQubePrepare@4
   inputs:
-    SonarQube: 'SonarQube - K8s'
+    SonarQube: 'SonarQubeSI'
     scannerMode: 'MSBuild'
