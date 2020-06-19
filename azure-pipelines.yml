@@ -15,13 +15,35 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm build
-    npm test
-   
-  displayName: 'npm install and build'
-- task: PublishTestResults@2
+- task: CacheBeta@1
   inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '.xml'
+    key: npm | $(Agent.OS) | package-lock.json
+    path: /home/vsts/.npm
+    restoreKeys: npm | $(Agent.OS) | package-lock.json
+  displayName: Cache NPM packages
+- task: CacheBeta@1
+  inputs:
+    key: cypress | $(Agent.OS) | package-lock.json
+    path: /home/vsts/.cache/Cypress
+    restoreKeys: cypress | $(Agent.OS) | package-lock.json
+  displayName: Cache Cypress binary
+
+- script: npm ci
+  displayName: 'Install NPM dependencies'  
+
+- script: npm run cy:verify
+  displayName: 'Cypress verify'
+
+- script: npm run cy:info
+  displayName: 'Cypress info'
+
+- script: |
+    npx print-env AGENT
+    npx print-env BUILD
+    npx print-env SYSTEM
+    npm run start:ci:windows &
+    npx cypress run --record --parallel --ci-build-id $BUILD_BUILDNUMBER --group "Azure CI"
+  displayName: 'Run Cypress tests'
+  env:
+  # avoid warnings about terminal
+    TERM: xterm
