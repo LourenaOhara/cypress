@@ -30,7 +30,3 @@ steps:
     searchFolder: '$(System.DefaultWorkingDirectory)/cypress-hmg/reports'
     mergeTestResults: true
     testRunTitle: 'Publish Test Result'
-- task: SonarQubePrepare@4
-  inputs:
-    SonarQube: 'SonarQubeSI'
-    scannerMode: 'MSBuild'
