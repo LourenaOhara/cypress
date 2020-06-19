@@ -12,8 +12,6 @@ describe('Login Blip Portal', () => {
     it('Dado que o usuario realiza login na aplicação e a tela do bot selecionado é exibida', () => {
         cy.login('lourena+teste@take.net', '150152')
 
-        cy.selectOpenBot()
-
-        cy.selectTabBot()
+        cy.wait(10000)
     })
 })
