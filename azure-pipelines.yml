@@ -15,6 +15,20 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run test:e2e-pipeline'
+  displayName: 'Test'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
+  displayName: 'Build'
+
 - task: CacheBeta@1
   inputs:
     key: npm | $(Agent.OS) | package-lock.json
